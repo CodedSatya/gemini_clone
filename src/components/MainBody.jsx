@@ -1,12 +1,14 @@
 import React from "react";
 import MainNav from "./MainNav";
+import ChatBody from "./ChatBody";
 
 const MainBody = () => {
   return (
     <>
-      <div className="flex ">
-        <div className="flex flex-1">
+      <div className="flex w-full">
+        <div className="w-full">
           <MainNav />
+          <ChatBody />
         </div>
       </div>
     </>

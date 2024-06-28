@@ -13,7 +13,9 @@ const Sidebar = () => {
       <div>
         <Menu
           size={37}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
           className="cursor-pointer bg-primary rounded-full text-softTextColor px-2 py-2"
         />
         <div className="cursor-pointer mt-7 inline-flex px-3 py-1 gap-2.5 text-md items-center justify-center bg-primary rounded-full ">
@@ -28,15 +30,15 @@ const Sidebar = () => {
       </div>
       <div className="flex flex-col gap-2.5">
         <div className="flex flex-row gap-3 items-center cursor-pointer">
-          <CircleHelp size={30} className="px-1 py-1 rounded-full"/>
+          <CircleHelp size={30} className="px-1 py-1 rounded-full" />
           {isOpen ? <p>Help</p> : null}
         </div>
         <div className="flex flex-row gap-3 items-center cursor-pointer">
-          <Activity size={30} className="px-1 py-1 rounded-full"/>
+          <Activity size={30} className="px-1 py-1 rounded-full" />
           {isOpen ? <p>Activities</p> : null}
         </div>
         <div className="flex flex-row gap-3 items-center cursor-pointer">
-          <Settings size={30} className="px-1 py-1 rounded-full"/>
+          <Settings size={30} className="px-1 py-1 rounded-full" />
           {isOpen ? <p>Settings</p> : null}
         </div>
       </div>
