@@ -12,7 +12,7 @@ export default function InputForm({ onSend }) {
         setValue("")
       }
     }
-  
+
   useEffect(() => {
     const handleEnterPress = (event) => {
       if (event.key === "Enter") {
@@ -27,7 +27,7 @@ export default function InputForm({ onSend }) {
     };
 
   }, [value]);
-  
+
   return (
     <div className="w-full flex flex-col gap-2 max-w-[50vw]">
       <div className="flex items-center flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
@@ -40,7 +40,7 @@ export default function InputForm({ onSend }) {
           onValueChange={setValue}
           variant="faded"
         />
-        <Forward className="bg-secondary h-8 w-8 rounded-full p-1" onClick={handleForwardClick}/>
+        <Forward className="bg-secondary h-8 w-8 rounded-full p-1 cursor-pointer" onClick={handleForwardClick}/>
       </div>
     </div>
   );
