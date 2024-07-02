@@ -13,15 +13,16 @@ const ContextProvider = ({ children }) => {
   const [prevPrompts, setPrevPrompts] = useState([]);
 
   //Typewriter Effect
-  const paragraphDelay = (index, newWord) => {
-    setTimeout(() => {
-      setResult((prev) => prev + newWord);
-    }, 70 * index);
-  };
+  // const paragraphDelay = (index, newWord) => {
+  //   setTimeout(() => {
+  //     setResult((prev) => prev + newWord);
+  //   }, 70 * index);
+  // };
   // Submit Handler
   const onSubmit = async ( prompt ) => {
     setLoading(true);
     setDisplayResult(true);
+    setInput(prompt)
     setRecentPrompts(input);
 
     if (input && prompt) {
@@ -42,11 +43,28 @@ const ContextProvider = ({ children }) => {
     let newRes = newArray.split("*").join("</br>");
     let newRes2 = newRes.split(" ");
 
+
+    const promises = []
     for (let i = 0; i < newRes2.length; i++) {
       const newWord = newRes2[i];
-      paragraphDelay(i, newWord + " ");
+      promises.push(new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(newWord + " ");
+        }, 70 * i);
+      }));
     }
+  
+    await Promise.all(promises);
+
+
+    setResult(newRes2.join(" "))
+
+    // for (let i = 0; i < newRes2.length; i++) {
+    //   const newWord = newRes2[i];
+    //   paragraphDelay(i, newWord + " ");
+    // }
     setLoading(false);
+    // setResult(response)
     setInput("");
 
 }

@@ -9,7 +9,7 @@ export default function InputForm({ onSend }) {
     const handleForwardClick = () => {
       if (value.trim() !== "") {
         onSend(value)
-        setValue("")
+        setValue("") 
       }
     }
 
