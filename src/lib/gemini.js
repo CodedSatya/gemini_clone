@@ -12,6 +12,7 @@ import {
     HarmCategory,
     HarmBlockThreshold,
 } from "@google/generative-ai";
+import { content } from "../../tailwind.config";
 
 const apiKey = "AIzaSyBH3bKAvYsTRTVsZuh_8l9SvN926rWdQjc";
 console.log(apiKey);
@@ -78,7 +79,16 @@ export let history = [
     }
 ]
 
-async function run(prompt) {
+export let userchat = {
+    role: "",
+    content: ""
+}
+export let modelchat = {
+    role: "",
+    content: ""
+}
+
+async function run(prompt, setMessage, message) {
     const chat = model.startChat({
         history: history,
         generationConfig: {
@@ -89,6 +99,16 @@ async function run(prompt) {
 
     const result = await chat.sendMessage(prompt.content);
     
+    setMessage(prev=>[...prev, { role: "user", content: prompt.content}] )
+    setMessage(prev=>[...prev, { role: "model", content: result.response.text()}] )
+
+
+    userchat.role="user";
+    userchat.content=prompt.content;
+
+    modelchat.role="model";
+    modelchat.content = result.response.text();
+
     history.map( obj => {
         if (obj.role === "user"){
             obj.parts.push({text: prompt.content})

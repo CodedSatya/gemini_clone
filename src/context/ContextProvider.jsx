@@ -2,6 +2,9 @@
 import run from "@/lib/gemini";
 import React, { createContext, useState } from "react";
 export const Context = createContext();
+
+
+
 const ContextProvider = ({ children }) => {
   
   const [theme, setTheme] = useState("dark");
@@ -19,7 +22,12 @@ const ContextProvider = ({ children }) => {
   //   }, 70 * index);
   // };
   // Submit Handler
-  const onSubmit = async ( prompt ) => {
+
+
+  
+
+
+  const onSubmit = async ( prompt, setMessage, message) => {
     setLoading(true);
     setDisplayResult(true);
     setInput(prompt)
@@ -29,7 +37,7 @@ const ContextProvider = ({ children }) => {
       setPrevPrompts((prev) => [...prev, input]);
     }
 
-    const response = input ? await run(input) : await run(prompt);
+    const response = input ? await run(input, setMessage) : await run(prompt, setMessage);
 
     const boldResponse = response.split("**");
     let newArray = "";
