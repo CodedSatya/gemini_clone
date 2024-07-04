@@ -12,8 +12,10 @@ import {
     HarmCategory,
     HarmBlockThreshold,
 } from "@google/generative-ai";
+import { content } from "../../tailwind.config";
 
-const apiKey = process.env.GEMINI_API_KEY;
+const apiKey = "AIzaSyBH3bKAvYsTRTVsZuh_8l9SvN926rWdQjc";
+console.log(apiKey);
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({
@@ -51,16 +53,72 @@ const generationConfig = {
     responseMimeType: "text/plain",
 };
 
-async function run(prompt) {
+/*
+[
+{
+role: "",
+parts: [{text: ""},{text: ""}]
+},
+{
+}
+]
+*/
+
+export let history = [
+    {
+        role: "user",
+        parts: [
+            {text: ""}
+        ]
+    },
+    {
+        role: "model",
+        parts: [
+            {text: ""}
+        ]
+    }
+]
+
+export let userchat = {
+    role: "",
+    content: ""
+}
+export let modelchat = {
+    role: "",
+    content: ""
+}
+
+async function run(prompt, setMessage, message) {
     const chat = model.startChat({
-        history: [],
+        history: history,
         generationConfig: {
             maxOutputTokens: 100,
         },
         safetySetting, // See https://ai.google.dev/gemini-api/docs/safety-settings
     });
 
-    const result = await chat.sendMessage(prompt);
+    const result = await chat.sendMessage(prompt.content);
+    
+    setMessage(prev=>[...prev, { role: "user", content: prompt.content}] )
+    setMessage(prev=>[...prev, { role: "model", content: result.response.text()}] )
+
+
+    userchat.role="user";
+    userchat.content=prompt.content;
+
+    modelchat.role="model";
+    modelchat.content = result.response.text();
+
+    history.map( obj => {
+        if (obj.role === "user"){
+            obj.parts.push({text: prompt.content})
+        }else{
+            obj.role = "model"
+            obj.parts.push({text: result.response.text()})
+        }
+    })
+
+    console.log(result.response.text());
     return result.response.text();
 }
 

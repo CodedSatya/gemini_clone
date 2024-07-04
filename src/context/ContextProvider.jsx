@@ -2,6 +2,9 @@
 import run from "@/lib/gemini";
 import React, { createContext, useState } from "react";
 export const Context = createContext();
+
+
+
 const ContextProvider = ({ children }) => {
   
   const [theme, setTheme] = useState("dark");
@@ -13,22 +16,28 @@ const ContextProvider = ({ children }) => {
   const [prevPrompts, setPrevPrompts] = useState([]);
 
   //Typewriter Effect
-  const paragraphDelay = (index, newWord) => {
-    setTimeout(() => {
-      setResult((prev) => prev + newWord);
-    }, 70 * index);
-  };
+  // const paragraphDelay = (index, newWord) => {
+  //   setTimeout(() => {
+  //     setResult((prev) => prev + newWord);
+  //   }, 70 * index);
+  // };
   // Submit Handler
-  const onSubmit = async ( prompt ) => {
+
+
+  
+
+
+  const onSubmit = async ( prompt, setMessage, message) => {
     setLoading(true);
     setDisplayResult(true);
+    setInput(prompt)
     setRecentPrompts(input);
 
     if (input && prompt) {
       setPrevPrompts((prev) => [...prev, input]);
     }
 
-    const response = input ? await run(input) : await run(prompt);
+    const response = input ? await run(input, setMessage) : await run(prompt, setMessage);
 
     const boldResponse = response.split("**");
     let newArray = "";
@@ -42,11 +51,28 @@ const ContextProvider = ({ children }) => {
     let newRes = newArray.split("*").join("</br>");
     let newRes2 = newRes.split(" ");
 
+
+    const promises = []
     for (let i = 0; i < newRes2.length; i++) {
       const newWord = newRes2[i];
-      paragraphDelay(i, newWord + " ");
+      promises.push(new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(newWord + " ");
+        }, 70 * i);
+      }));
     }
+  
+    await Promise.all(promises);
+
+
+    setResult(newRes2.join(" "))
+
+    // for (let i = 0; i < newRes2.length; i++) {
+    //   const newWord = newRes2[i];
+    //   paragraphDelay(i, newWord + " ");
+    // }
     setLoading(false);
+    // setResult(response)
     setInput("");
 
 }
