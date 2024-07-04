@@ -99,7 +99,7 @@ async function run(prompt, setMessage, message) {
 
     const result = await chat.sendMessage(prompt.content);
     
-    setMessage(prev=>[...prev, { role: "user", content: prompt.content}] )
+    // setMessage(prev=>[...prev, { role: "user", content: prompt.content}] )
     setMessage(prev=>[...prev, { role: "model", content: result.response.text()}] )
 
 

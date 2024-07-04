@@ -42,6 +42,7 @@ const ChatBody = () => {
     // setPrompt()
     // console.log(message);
     // console.log(history);
+    setMessages(prev=>[...prev, {role:"user", content: message}])
     onSubmit({
       role: "user",
       content: message
@@ -85,7 +86,7 @@ const ChatBody = () => {
                         className="absolute top-0 right-0 transform -translate-x-3.5 translate-y-3"
                       />
                     ) : (
-                      <BrainCircuit size={35} className="px-2" />
+                      loading?<div>Loading</div>:<BrainCircuit size={35} className="px-2" />
                     )}
                     <p className={`text-m font-bold text-gray-500 p-2.5 ${m.role === "user" ? "mt-7" : "mt-1"}`}>{m.content}</p>
                   </div>
